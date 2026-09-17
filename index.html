@@ -92,6 +92,51 @@
     .activity-report .change-report { display:block; margin:8px 0 0; }
     .activity-report .report-link { margin:0; }
     @media (max-width:680px) { .activities-heading, .activities { min-width:720px; } }
+  
+    @media screen and (max-width:680px) {
+      .page { width:100%; margin:0; box-shadow:none; }
+      header, main { padding:22px 16px; }
+      header .eyebrow { font-size:19px; }
+      h1 { font-size:25px; line-height:1.5; }
+      h2 { font-size:19px; }
+      .meta { display:grid; gap:6px; margin-top:18px; }
+      .year-nav { display:grid; grid-template-columns:1fr; gap:8px; }
+      .year-nav a { text-align:center; min-height:44px; }
+      .tools { flex-wrap:wrap; gap:8px; }
+      button, .report-link { min-height:44px; }
+      .tools button { flex:1 1 120px; }
+      .dashboard { padding:14px; }
+      .dashboard-grid, .outcomes, .stats { grid-template-columns:1fr; }
+      .control-box input, .control-box select, dialog input { font-size:16px; min-height:44px; }
+      .activity-list-scroll { overflow:visible; }
+      .activities-heading { display:none; }
+      .activities { min-width:0; width:100%; }
+      .activities .activity { grid-template-columns:36px minmax(0,1fr); margin-bottom:14px; border:1px solid #dce7ed; border-radius:10px; overflow:hidden; }
+      .activities .activity::before { grid-column:1; grid-row:1; padding:12px 6px; border:0; background:#176e9e; color:white; }
+      .activities .activity h3 { grid-column:2; grid-row:1; border:0; background:#edf7fb; overflow-wrap:anywhere; }
+      .activities .activity > .activity-date { grid-column:1 / -1; grid-row:2; border:0; border-top:1px solid #dce7ed; }
+      .activities .activity > .activity-date::before { content:'التاريخ: '; font-weight:700; color:#176e9e; }
+      .activities .activity p { grid-column:1 / -1; grid-row:3; border:0; border-top:1px solid #dce7ed; overflow-wrap:anywhere; }
+      .activities .activity p::before { content:'الوصف: '; font-weight:700; color:#176e9e; }
+      .activities .activity > .activity-report { grid-column:1 / -1; grid-row:4; border:0; border-top:1px solid #dce7ed; }
+      .activity-report::before { content:'تقرير النشاط: '; display:block; font-weight:700; color:#176e9e; }
+      .activity-report:empty::before { content:'تقرير النشاط: لم يُضف تقرير'; }
+      .activity-report .change-report { display:inline-block; margin:0 8px; }
+      .activities .activity > .delete-item { grid-column:1 / -1; }
+      main table, main table tbody { display:block; width:100%; }
+      main table thead { display:none; }
+      main table tbody tr { display:block; margin-bottom:14px; border:1px solid #dce7ed; border-radius:10px; overflow:hidden; }
+      main table td { display:grid; grid-template-columns:105px minmax(0,1fr); gap:8px; padding:10px; border:0; border-bottom:1px solid #dce7ed; font-size:14px; overflow-wrap:anywhere; }
+      main table td::before { font-weight:700; color:#176e9e; }
+      main table td:nth-child(1)::before { content:'الفعالية'; }
+      main table td:nth-child(2)::before { content:'التاريخ'; }
+      main table td:nth-child(3)::before { content:'عدد المشاركين'; }
+      main table td:nth-child(4)::before { content:'المسؤول'; }
+      main table td:nth-child(5)::before { content:'تقرير الفعالية'; }
+      main table td:last-child { border-bottom:0; }
+      main table td .change-report, main table td .delete-item { grid-column:2; margin:0; }
+      footer { padding:18px 16px; }
+    }
   </style>
 </head>
 <body>
@@ -327,6 +372,9 @@
           date.textContent = combined ? combined[1] : '—';
           if (combined) description.textContent = combined[2];
           activity.insertBefore(date, description);
+        }
+        if (!date.textContent.trim() || date.textContent.trim() === '—') {
+          date.textContent = currentHijri.day + ' ' + hijriMonths[currentHijri.month - 1] + ' ' + currentHijri.year + 'هـ';
         }
         date.setAttribute('aria-label', 'تاريخ النشاط');
         let reportCell = activity.querySelector('.activity-report');
